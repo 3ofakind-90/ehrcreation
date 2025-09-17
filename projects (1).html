@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Projects - 3D Thumbnail Designer Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6e45e2;
+            --secondary: #88d3ce;
+            --accent: #ff7e5f;
+            --dark: #1a1a2e;
+            --light: #f0f0f7;
+            --glow: 0 0 15px rgba(110, 69, 226, 0.6);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--dark) 0%, #16213e 100%);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+        }
+        
+        nav.scrolled {
+            padding: 15px 5%;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: var(--accent);
+            margin-right: 5px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin: 0 15px;
+        }
+        
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+        
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .menu-btn {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        /* Page Header */
+        .page-header {
+            padding: 150px 5% 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page-title {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .page-title:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 5px;
+            background: var(--accent);
+            border-radius: 5px;
+        }
+        
+        .page-desc {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            color: #ccc;
+        }
+        
+        /* Projects Section */
+        #projects {
+            padding: 60px 5% 100px;
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 40px;
+        }
+        
+        .project-item {
+            background: linear-gradient(145deg, rgba(26, 26, 46, 0.8), rgba(22, 33, 62, 0.8));
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s ease;
+        }
+        
+        .project-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), var(--glow);
+        }
+        
+        .project-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+        
+        .project-info {
+            padding: 25px;
+        }
+        
+        .project-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+        
+        .project-desc {
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 5%;
+            background: rgba(26, 26, 46, 0.9);
+        }
+        
+        .footer-text {
+            font-size: 1rem;
+            color: #aaa;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .menu-btn {
+                display: block;
+            }
+            
+            .mobile-menu {
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 70%;
+                height: 100vh;
+                background: var(--dark);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                z-index: 1001;
+                transform: translateX(100%);
+                transition: transform 0.4s ease;
+            }
+            
+            .mobile-menu.active {
+                transform: translateX(0);
+            }
+            
+            .mobile-nav-links {
+                list-style: none;
+                text-align: center;
+            }
+            
+            .mobile-nav-links li {
+                margin: 20px 0;
+            }
+            
+            .mobile-nav-links a {
+                color: var(--light);
+                text-decoration: none;
+                font-size: 1.5rem;
+                font-weight: 600;
+                transition: all 0.3s ease;
+            }
+            
+            .mobile-nav-links a:hover {
+                color: var(--accent);
+            }
+            
+            .close-btn {
+                position: absolute;
+                top: 30px;
+                right: 30px;
+                font-size: 24px;
+                cursor: pointer;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.8rem;
+            }
+            
+            .page-desc {
+                font-size: 1rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 2.2rem;
+            }
+            
+            .project-image {
+                height: 200px;
+            }
+        }
+
+        /* Animation classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <a href="index.html" class="logo"><span>EHR</span>Creation</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="projects.html" class="active">Projects</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <div class="menu-btn">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <div class="close-btn">
+            <i class="fas fa-times"></i>
+        </div>
+        <ul class="mobile-nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <h1 class="page-title">My Projects</h1>
+        <p class="page-desc">Explore my portfolio of thumbnail designs that have helped content creators increase their click-through rates and engagement.</p>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="projects-grid">
+            <!-- Project 1 -->
+            <div class="project-item fade-in">
+                <img src="https://i.imghippo.com/files/WPD1448Qds.png" alt="Gaming Thumbnail" class="project-image">
+                <div class="project-info">
+                    <h3 class="project-title">Growth Thumbnail</h3>
+                    <p class="project-desc">This design is mainly a redesign. Here, I’ve styled the texts as much as possible. Overall, I tried to bring a colorful vibe to the thumbnail.</p>
+                </div>
+            </div>
+            
+            <!-- Project 2 -->
+            <div class="project-item fade-in">
+               <img src="https://i.imghippo.com/files/bzf8069XoQ.png" alt="Cooking Thumbnail" class="project-image">
+                <div class="project-info">
+                    <h3 class="project-title">Motivational Thumbnail</h3>
+                    <p class="project-desc">I have redesigned this thumbnail. Here, I have highlighted the main topic of the video in a better way. I’ve also added some elements to make the thumbnail look more creative.</p>
+                </div>
+            </div>
+            
+            <!-- Project 3 -->
+            <div class="project-item fade-in">
+                <img src="https://i.imghippo.com/files/dszg3034aA.png" alt="Tech Thumbnail" class="project-image">
+                <div class="project-info">
+                    <h3 class="project-title">Podcast Thumbnail</h3>
+                    <p class="project-desc">This is a podcast thumbnail. You could call it a redesign. Here I’ve tried to highlight the podcast title and add glowing vibes so that it sparks creativity in the audience’s mind more easily.</p>
+                </div>
+            </div>
+            
+            <!-- Project 4 -->
+            <div class="project-item fade-in">
+               <img src="https://i.imghippo.com/files/Rd7099IW.png" alt="Travel Thumbnail" class="project-image">
+                <div class="project-info">
+                    <h3 class="project-title">Vlog Thumbnail</h3>
+                    <p class="project-desc">This thumbnail is not a redesign. It has been created entirely from a brief. Here, I’ve tried to make it high quality and eye-catching.</p>
+                </div>
+            </div>
+            
+            <!-- Project 5 -->
+            <div class="project-item fade-in">
+                <img src="https://i.imghippo.com/files/kdI3777WEU.png" alt="Education Thumbnail" class="project-image">
+                <div class="project-info">
+                    <h3 class="project-title">Business Thumbnail</h3>
+                    <p class="project-desc">This redesign thumbnail has been created from a completely unique brief. Various visual elements have been added here to make it more creative.”</p>
+                </div>
+            </div>
+            
+            <!-- Project 6 -->
+            <div class="project-item fade-in">
+                <img src="https://i.imghippo.com/files/dj2029zM.png" alt="Gaming Thumbnail" class="project-image">
+                <div class="project-info">
+                    <h3 class="project-title">Course Thumbnail</h3>
+                    <p class="project-desc">This thumbnail has been designed from a unique brief. It captures all the course-related aspects in a deep and creative way.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p class="footer-text">All Right Reserved by EHR Creation</p>
+    </footer>
+
+    <script>
+        // Navigation scroll effect
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+        
+        // Mobile menu toggle
+        const menuBtn = document.querySelector('.menu-btn');
+        const closeBtn = document.querySelector('.close-btn');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        
+        menuBtn.addEventListener('click', function() {
+            mobileMenu.classList.add('active');
+        });
+        
+        closeBtn.addEventListener('click', function() {
+            mobileMenu.classList.remove('active');
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    mobileMenu.classList.remove('active');
+                }
+            });
+        });
+        
+        // Fade-in animation on scroll
+        function checkFade() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            fadeElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementBottom = element.getBoundingClientRect().bottom;
+                
+                if (elementTop < window.innerHeight - 100 && elementBottom > 0) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+        
+        window.addEventListener('load', function() {
+            checkFade();
+        });
+        
+        window.addEventListener('scroll', checkFade);
+        window.addEventListener('resize', checkFade);
+    </script>
+</body>
+</html>
